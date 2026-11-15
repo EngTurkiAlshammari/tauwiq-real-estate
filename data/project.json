@@ -1,0 +1,17 @@
+{
+  "id": "tauwiq-heights",
+  "name_ar": "عالية طويق",
+  "name_en": "Tauwiq Heights",
+  "description": "مشروع سكني في غرب الرياض",
+  "units_count": 159,
+  "blocks_count": 7,
+  "available_count": 84,
+  "reserved_count": 7,
+  "sold_count": 68,
+  "min_total_area_sqm": 139.42,
+  "max_total_area_sqm": 406.57,
+  "min_price_sar": 580683.73,
+  "max_price_sar": 1870154.49,
+  "project_total_units": 159,
+  "project_area_sqm": 16945
+}

@@ -1,0 +1,51 @@
+[
+  {
+    "block": 1,
+    "total": 15,
+    "available": 15,
+    "reserved": 0,
+    "sold": 0
+  },
+  {
+    "block": 2,
+    "total": 20,
+    "available": 20,
+    "reserved": 0,
+    "sold": 0
+  },
+  {
+    "block": 3,
+    "total": 13,
+    "available": 13,
+    "reserved": 0,
+    "sold": 0
+  },
+  {
+    "block": 4,
+    "total": 12,
+    "available": 12,
+    "reserved": 0,
+    "sold": 0
+  },
+  {
+    "block": 5,
+    "total": 9,
+    "available": 9,
+    "reserved": 0,
+    "sold": 0
+  },
+  {
+    "block": 6,
+    "total": 6,
+    "available": 6,
+    "reserved": 0,
+    "sold": 0
+  },
+  {
+    "block": 7,
+    "total": 9,
+    "available": 9,
+    "reserved": 0,
+    "sold": 0
+  }
+]
