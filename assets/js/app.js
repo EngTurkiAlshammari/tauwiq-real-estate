@@ -1,6 +1,6 @@
 const $ = (id) => document.getElementById(id);
 const LEADS_API_URL = "https://script.google.com/macros/s/AKfycbyYf_Myn5Sl-7pQbJ5mFDNn7FIA0XJYgkE7yR56oMXhoXh1mT9IiboACYprqPSBkqwo2Q/exec";
-let units = [], sites = [], project = {};
+let units = [], sites = [], project = {}, planModels = {};
 const DIGITS = "٠١٢٣٤٥٦٧٨٩";
 const statusLabels = {available:"متاحة", reserved:"محجوزة", sold:"مباعة"};
 const statusClass = {available:"", reserved:"reserved", sold:"sold"};
@@ -12,6 +12,12 @@ const number = (value, max=2) => {
   return arabicDigits(formatted).replace(/,/g,"٬").replace(/\./g,"٫");
 };
 const money = value => `${number(Math.round(Number(value)),0)} ريال`;
+function listedPrice(unit){
+  if(!unit || unit.status!=="available") return "";
+  const value=Number(unit.price_sar);
+  if(!Number.isFinite(value) || value<=0) return "";
+  return money(value);
+}
 const yesNo = value => value || "—";
 const esc = value => String(value ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const normalizeSearch = value => normalizeDigits(value).toLowerCase().replace(/أ/g,"a").replace(/إ/g,"a").replace(/آ/g,"a").replace(/ب/g,"b").replace(/[·،]/g," ");
@@ -49,7 +55,7 @@ function readLeadStatus(requestId) {
     const fail = () => {
       if (finished) return;
       cleanup();
-      reject(new Error("لم نتمكن من تأكيد حفظ الطلب في سجل العملاء. تحقق من نشر آخر إصدار في Apps Script ثم حاول مرة أخرى."));
+      reject(new Error("لم نتمكن من تأكيد حفظ الطلب في سجل العملاء. حاول مرة أخرى بعد قليل."));
     };
 
     window[callbackName] = data => {
@@ -93,8 +99,36 @@ function readLeadStatus(requestId) {
   });
 }
 
-async function loadJSON(path){const response=await fetch(path);if(!response.ok)throw new Error("تعذر تحميل البيانات");return response.json();}
+async function loadJSON(path){const response=await fetch(path,{cache:"no-store"});if(!response.ok)throw new Error("تعذر تحميل البيانات");return response.json();}
+function enNumber(value, max=2){
+  if (value === null || value === undefined || value === "") return "—";
+  return Number(value).toLocaleString("en-US", {maximumFractionDigits:max});
+}
 function floorLabel(f){return f ? `الدور ${f}` : "—";}
+const floorEn = {"الأرضي":"Ground floor", "الأول":"First floor", "العلوي":"Second floor"};
+function floorLabelEn(f){return floorEn[f] || f || "—";}
+function unitLetter(unit){
+  return String(unit.unit_code||"A").replace(/[^A-Za-z]/g,"").toUpperCase()||"A";
+}
+function unitMark(unit){
+  return `${unitLetter(unit)}-1`;
+}
+function cardName(unit){
+  return `الوحدة ${unitLetter(unit)}1`;
+}
+function placeLine(unit){
+  return `Block ${enNumber(unit.block,0)} · Building ${enNumber(unit.building,0)} · ${floorLabelEn(unit.floor)}`;
+}
+function placeTitle(unit){
+  return `Block ${enNumber(unit.block,0)} · Building ${enNumber(unit.building,0)} · ${unitMark(unit)} · ${floorLabelEn(unit.floor)}`;
+}
+function moneyEn(value){return `${enNumber(Math.round(Number(value)),0)} ريال`;}
+function listedPriceEn(unit){
+  if(!unit || unit.status!=="available") return "";
+  const value=Number(unit.price_sar);
+  if(!Number.isFinite(value) || value<=0) return "";
+  return moneyEn(value);
+}
 function rangeText(min,max){return `${number(min)} – ${number(max)} م²`;}
 
 function populateFilters(){
@@ -104,6 +138,9 @@ function populateFilters(){
   const floors = [...new Set(units.map(u=>u.floor))];
   $("floorFilter").innerHTML = '<option value="">جميع الأدوار</option>' +
     floors.map(f=>`<option value="${esc(f)}">${floorLabel(f)}</option>`).join("");
+  const bedrooms = [...new Set(units.map(u=>Number(u.bedrooms)).filter(n=>Number.isFinite(n)))].sort((a,b)=>a-b);
+  $("bedroomFilter").innerHTML = '<option value="">جميع غرف النوم</option>' +
+    bedrooms.map(n=>`<option value="${n}">${number(n,0)} غرف نوم</option>`).join("");
 }
 function updateBuildingFilter(){
   const block = $("siteFilter").value;
@@ -127,19 +164,26 @@ function renderSites(){
 function getFiltered(){
   const query=normalizeSearch($("searchInput").value.trim());
   const block=$("siteFilter").value, building=$("buildingFilter").value,
-    floor=$("floorFilter").value, type=$("typeFilter").value;
+    floor=$("floorFilter").value, type=$("typeFilter").value, bedrooms=$("bedroomFilter").value;
   let list=units.filter(unit=>{
     if(unit.status!=="available") return false;
     if(block && String(unit.block)!==block) return false;
     if(building && String(unit.building)!==building) return false;
     if(floor && unit.floor!==floor) return false;
     if(type && unit.unit_type!==type) return false;
+    if(bedrooms && String(unit.bedrooms)!==bedrooms) return false;
     const searchable=normalizeSearch(`${unit.unit_name} ${unit.unit_code} ${unit.unit_code_ar} ${unit.block} ${unit.building} ${unit.unit_type}`);
     if(query && !searchable.includes(query)) return false;
     return true;
   });
   const sort=$("sortFilter").value;
+  const priceOf=unit=>{
+    const value=Number(unit.price_sar);
+    return Number.isFinite(value) && value>0 ? value : Number.POSITIVE_INFINITY;
+  };
   list.sort((a,b)=>{
+    if(sort==="price-asc") return priceOf(a)-priceOf(b);
+    if(sort==="price-desc") return priceOf(b)-priceOf(a);
     return sort==="area-desc" ? b.total_area_sqm-a.total_area_sqm : a.total_area_sqm-b.total_area_sqm;
   });
   return list;
@@ -147,24 +191,50 @@ function getFiltered(){
 function renderUnits(){
   const list=getFiltered();
   $("resultsCount").textContent=`عرض ${number(list.length,0)} من ${number(units.length,0)} وحدة`;
-  $("unitGrid").innerHTML=list.map(unit=>`
-    <article class="unit-card" data-id="${esc(unit.id)}" tabindex="0" role="button" aria-label="تفاصيل الوحدة ${esc(unit.unit_code_ar)}">
-      <div class="unit-card-top">
-        <span class="unit-code">${esc(unit.unit_code_ar)}</span>
-        <span class="unit-status ${statusClass[unit.status]||""}">${statusLabels[unit.status]||"غير محددة"}</span>
+  $("unitGrid").innerHTML=list.map(unit=>{
+    const price=listedPriceEn(unit);
+    const plan=planSlidesFor(unit)[0];
+    return `
+    <article class="unit-card" data-id="${esc(unit.id)}" tabindex="0" role="button" aria-label="${esc(cardName(unit))}، ${esc(placeLine(unit))}${price?`، السعر ${price}`:""}">
+      <div class="unit-plan-thumb">
+        ${plan
+          ? `<img src="${esc(plan.src)}" alt="${esc(cardName(unit))}" loading="lazy">`
+          : `<span class="unit-plan-missing">لا يوجد مخطط</span>`}
       </div>
-      <p class="unit-location">البلوك ${number(unit.block,0)} · المبنى ${number(unit.building,0)} · ${floorLabel(unit.floor)}</p>
-      <div class="unit-specs">
-        <div><span>المساحة الإجمالية</span><strong>${number(unit.total_area_sqm)} م²</strong></div>
-        <div><span>نوع الوحدة</span><strong>${esc(unit.unit_type)}</strong></div>
-        <div><span>غرف النوم</span><strong>${number(unit.bedrooms,0)}</strong></div>
-        <div><span>المساحة الداخلية</span><strong>${number(unit.internal_area_sqm)} م²</strong></div>
+      <div class="unit-card-body">
+        <div class="unit-card-top">
+          <div class="unit-name">
+            <span class="unit-code">${esc(cardName(unit))}</span>
+            <span class="unit-place" dir="ltr">${esc(placeLine(unit))}</span>
+          </div>
+          <span class="unit-status ${statusClass[unit.status]||""}">${statusLabels[unit.status]||"غير محددة"}</span>
+        </div>
+        <div class="unit-specs">
+          <div><span>النوع</span><strong>${esc(unit.unit_type)}</strong></div>
+          <div><span>المساحة</span><strong>${enNumber(unit.total_area_sqm)} م²</strong></div>
+          <div><span>غرف النوم</span><strong>${enNumber(unit.bedrooms,0)}</strong></div>
+          <div><span>دورات المياه</span><strong>${enNumber(unit.bathrooms,0)}</strong></div>
+          <div><span>المجلس</span><strong>${esc(unit.majlis || "يوجد")}</strong></div>
+          <div><span>غرفة المعيشة</span><strong>${esc(unit.living_room || "يوجد")}</strong></div>
+        </div>
+        <div class="unit-price-row">
+          ${price
+            ? `<div class="unit-price"><span>السعر</span><strong>${price}</strong></div>`
+            : `<span class="unit-price-note">السعر عند الاستفسار</span>`}
+          <span class="unit-more">عرض التفاصيل ←</span>
+        </div>
       </div>
-      <div class="unit-price-row">
-        <span class="unit-more">عرض التفاصيل ←</span>
-      </div>
-    </article>`).join("");
+    </article>`;
+  }).join("");
   $("noResults").hidden=list.length!==0;
+  document.querySelectorAll(".unit-plan-thumb img").forEach(img=>{
+    img.addEventListener("error",()=>{
+      const note=document.createElement("span");
+      note.className="unit-plan-missing";
+      note.textContent="لا يوجد مخطط";
+      img.replaceWith(note);
+    });
+  });
   document.querySelectorAll(".unit-card").forEach(card=>{
     const open=()=>showUnit(card.dataset.id);
     card.addEventListener("click",open);
@@ -172,142 +242,152 @@ function renderUnits(){
   });
 }
 function detailRow(label,value){return `<div><span>${label}</span><strong>${value}</strong></div>`;}
+function planSlidesFor(unit){
+  const slides=planModels[unit.id];
+  const list=Array.isArray(slides) && slides.length
+    ? slides
+    : (unit.plan_image ? [{src:unit.plan_image, caption:unit.plan_caption || ""}] : []);
+  if(list.length<=1) return list;
+  const floor=unit.floor_raw||"";
+  const token=floor==="أول" ? "الأول" : floor==="علوي" ? "الثاني" : "الأرضي";
+  const match=list.find(slide=>{
+    const caption=String(slide.caption||"");
+    return caption.includes(token) || (floor==="علوي" && caption.includes("الملحق"));
+  });
+  return [match || list[0]];
+}
+function unitInterestText(unit){
+  return `${cardName(unit)} · البلوك ${enNumber(unit.block,0)} · المبنى ${enNumber(unit.building,0)} · ${floorLabel(unit.floor)}`;
+}
+function bookUnit(unit){
+  const dialog=$("unitDialog");
+  if(dialog && dialog.open) dialog.close();
+  const form=$("leadForm");
+  const unitInput=form && form.querySelector('[name="unit"]');
+  if(unitInput){
+    unitInput.value=unitInterestText(unit);
+    unitInput.classList.add("is-filled");
+  }
+  const contact=$("contact");
+  if(contact){
+    document.documentElement.style.scrollBehavior="auto";
+    contact.scrollIntoView({block:"start"});
+  }
+  const first=form && form.querySelector('[name="firstName"]');
+  if(first) window.setTimeout(()=>first.focus({preventScroll:true}), 60);
+}
 function showUnit(id){
   const unit=units.find(item=>item.id===id); if(!unit)return;
-  const planBlock=unit.plan_image
+  const price=listedPriceEn(unit);
+  const slides=planSlidesFor(unit);
+  const planBlock=slides.length
     ? `<section class="dialog-plan-section">
-        <div class="dialog-plan-heading"><strong>مخطط الوحدة</strong><span>${esc(unit.plan_caption || `البلوك ${number(unit.block,0)} · المبنى ${number(unit.building,0)} · ${floorLabel(unit.floor)}`)}</span></div>
-        <div class="dialog-plan-wrap"><img class="dialog-plan" src="${esc(unit.plan_image)}" alt="مخطط البلوك ${number(unit.block,0)} المبنى ${number(unit.building,0)} ${floorLabel(unit.floor)}" loading="lazy"></div>
-        <p class="dialog-plan-note">${esc(unit.plan_note || "المخطط من كتيب نماذج الوحدات.")}</p>
+        <div class="dialog-plan-heading"><strong>المخطط</strong><span>من كتيب نماذج الوحدات</span></div>
+        ${slides.map(slide=>`<figure class="dialog-plan-slide">
+          <div class="dialog-plan-wrap"><img class="dialog-plan" src="${esc(slide.src)}" alt="${esc(placeTitle(unit))}"></div>
+          <figcaption class="dialog-plan-note">${esc(placeTitle(unit))}</figcaption>
+        </figure>`).join("")}
       </section>`
-    : `<p class="dialog-plan-missing">لا يتوفر مخطط مطابق لهذه الوحدة في الملفات الحالية.</p>`;
-  const buildingImage=`<section class="dialog-building-photo">
-      <div class="dialog-plan-heading"><strong>صورة من المشروع</strong><span>صورة معتمدة</span></div>
-      <div class="dialog-building-photo-wrap"><img src="${esc(unit.building_image || "assets/images/official-building-photo.jpeg")}" alt="صورة من مشروع عالية طويق" loading="lazy"></div>
-    </section>`;
+    : `<p class="dialog-plan-missing">لا يتوفر مخطط مطابق لهذه الوحدة.</p>`;
+  const factGroup=(title, rows)=>`<section class="dialog-group"><h3>${title}</h3><div class="dialog-grid">${rows}</div></section>`;
   $("dialogContent").innerHTML=`<div class="dialog-body">
-    <p class="dialog-eyebrow">عالية طويق · تفاصيل الوحدة</p>
-    <h2 class="dialog-title">الوحدة ${esc(unit.unit_code_ar)} — ${esc(unit.unit_type)}</h2>
-    <div class="dialog-badges">
-      <span class="unit-status ${statusClass[unit.status]||""}">${statusLabels[unit.status]||"غير محددة"}</span>
-      <span class="floor-badge">${floorLabel(unit.floor)}</span>
+    <header class="dialog-head">
+      <div>
+        <p class="dialog-eyebrow">عالية طويق · تفاصيل الوحدة</p>
+        <h2 class="dialog-title">${esc(placeTitle(unit))}</h2>
+        <div class="dialog-badges">
+          <span class="unit-status ${statusClass[unit.status]||""}">${statusLabels[unit.status]||"غير محددة"}</span>
+          <span class="floor-badge">${esc(unit.unit_type)}</span>
+          <span class="floor-badge">${floorLabel(unit.floor)}</span>
+        </div>
+      </div>
+      ${price
+        ? `<p class="dialog-price">${price}</p>`
+        : `<p class="dialog-price-hidden">السعر غير منشور لهذه الوحدة.</p>`}
+    </header>
+    <div class="dialog-layout">
+      ${planBlock}
+      <div class="dialog-facts">
+        ${factGroup("الموقع", [
+          detailRow("البلوك", enNumber(unit.block,0)),
+          detailRow("المبنى", enNumber(unit.building,0)),
+          detailRow("الدور", floorLabel(unit.floor)),
+          detailRow("الوحدة", unitMark(unit))
+        ].join(""))}
+        ${factGroup("المساحات", [
+          detailRow("الداخلية", `${enNumber(unit.internal_area_sqm)} م²`),
+          detailRow("الموقف", `${enNumber(unit.parking_area_sqm)} م²`),
+          detailRow("الأجزاء الخاصة", `${enNumber(unit.private_area_sqm)} م²`),
+          detailRow("الإجمالية", `${enNumber(unit.total_area_sqm)} م²`)
+        ].join(""))}
+        ${factGroup("التفاصيل", [
+          detailRow("غرف النوم", enNumber(unit.bedrooms,0)),
+          detailRow("دورات المياه", enNumber(unit.bathrooms,0)),
+          detailRow("المجلس", esc(unit.majlis || "يوجد")),
+          detailRow("غرفة المعيشة", esc(unit.living_room || "يوجد")),
+          detailRow("المدخل الخاص", esc(yesNo(unit.private_entrance))),
+          detailRow("الوصف", esc(unit.specifications))
+        ].join(""))}
+        <button type="button" class="dialog-book">احجز الآن</button>
+      </div>
     </div>
-    ${buildingImage}
-    ${planBlock}
-    <div class="dialog-specs-heading"><strong>مواصفات الوحدة</strong><span></span></div>
-    <div class="dialog-grid">
-      ${detailRow("رقم الوحدة",esc(unit.unit_code_ar))}
-      ${detailRow("البلوك",number(unit.block,0))}
-      ${detailRow("المبنى",number(unit.building,0))}
-      ${detailRow("الدور",floorLabel(unit.floor))}
-      ${detailRow("نوع الوحدة",esc(unit.unit_type))}
-      ${detailRow("وصف الوحدة",esc(unit.specifications))}
-      ${detailRow("عدد غرف النوم",number(unit.bedrooms,0))}
-      ${detailRow("المساحة الداخلية حسب الصك",`${number(unit.internal_area_sqm)} م²`)}
-      ${detailRow("مساحة الموقف",`${number(unit.parking_area_sqm)} م²`)}
-      ${detailRow("مساحة الأجزاء الخاصة",`${number(unit.private_area_sqm)} م²`)}
-      ${detailRow("المساحة الإجمالية شاملة المرافق",`${number(unit.total_area_sqm)} م²`)}
-      ${detailRow("مدخل خاص",esc(yesNo(unit.private_entrance)))}
-      ${detailRow("حالة التوفر",esc(unit.status_ar))}
-    </div>
-    <p class="dialog-foot">للاستفسار عن تفاصيل هذه الوحدة، تواصل مع فريق المبيعات.</p>
   </div>`;
+  $("dialogContent").querySelector(".dialog-book").addEventListener("click", ()=>bookUnit(unit));
   $("unitDialog").showModal();
+  $("dialogContent").querySelectorAll(".dialog-plan").forEach(planImg=>{
+    const hideMissingPlan=()=>{
+      const slide=planImg.closest(".dialog-plan-slide");
+      const section=planImg.closest(".dialog-plan-section");
+      if(slide) slide.remove();
+      if(section && section.isConnected && !section.querySelector(".dialog-plan")){
+        section.outerHTML='<p class="dialog-plan-missing">لا يتوفر نموذج مطابق لهذه الوحدة في كتيب النماذج.</p>';
+      }
+    };
+    planImg.addEventListener("error", hideMissingPlan);
+    if(planImg.complete && planImg.naturalWidth===0) hideMissingPlan();
+  });
 }
 
-const gallerySlides = [{"src": "assets/images/gallery/photo-01.webp", "caption": "مساحة معيشة واسعة", "alt": "مساحة معيشة واسعة"}, {"src": "assets/images/gallery/photo-02.webp", "caption": "تفاصيل المساحة الداخلية", "alt": "تفاصيل المساحة الداخلية"}, {"src": "assets/images/gallery/photo-03.webp", "caption": "واجهات الوحدات السكنية", "alt": "واجهات الوحدات السكنية"}, {"src": "assets/images/gallery/photo-04.webp", "caption": "تفاصيل المغاسل", "alt": "تفاصيل المغاسل"}, {"src": "assets/images/gallery/photo-05.webp", "caption": "واجهات المشروع", "alt": "واجهات المشروع"}, {"src": "assets/images/gallery/photo-06.webp", "caption": "مشهد عام للوحدات", "alt": "مشهد عام للوحدات"}, {"src": "assets/images/gallery/photo-07.webp", "caption": "تفاصيل دورة المياه", "alt": "تفاصيل دورة المياه"}, {"src": "assets/images/gallery/photo-08.webp", "caption": "واجهة مبنى سكني", "alt": "واجهة مبنى سكني"}, {"src": "assets/images/gallery/photo-09.webp", "caption": "المدخل والدرج الداخلي", "alt": "المدخل والدرج الداخلي"}, {"src": "assets/images/gallery/photo-10.webp", "caption": "واجهة المبنى", "alt": "واجهة المبنى"}];
-let galleryIndex = 0;
-let galleryTimer = null;
-let galleryPaused = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
+const gallerySlides = [
+  {src:"images/gallery/show-unit.jpg?v=2", caption:"وحدة العرض", alt:"وحدة العرض"},
+  {src:"images/gallery/interior-majlis.jpg?v=2", caption:"مجلس الضيوف", alt:"مجلس الضيوف"},
+  {src:"images/gallery/interior-living.jpg?v=2", caption:"غرفة المعيشة", alt:"غرفة المعيشة"},
+  {src:"images/gallery/interior-kitchen.jpg?v=2", caption:"المطبخ", alt:"المطبخ"},
+  {src:"images/gallery/interior-bedroom.jpg?v=2", caption:"غرفة النوم", alt:"غرفة النوم"}
+];
 function initGallery(){
-  const mainImage = $("galleryMainImage");
-  const caption = $("galleryCaption");
-  const count = $("galleryCount");
-  const dotsWrap = $("galleryDots");
-  const thumbsWrap = $("galleryThumbnails");
-  const playButton = $("galleryPlay");
-  if(!mainImage || !caption || !count || !dotsWrap || !thumbsWrap || !playButton) return;
-
-  const arabic = value => String(value).replace(/[0-9]/g, digit => "٠١٢٣٤٥٦٧٨٩"[Number(digit)]);
-  dotsWrap.innerHTML = gallerySlides.map((slide,index) =>
-    `<button type="button" class="gallery-dot${index===0?" active":""}" data-index="${index}" aria-label="عرض الصورة ${arabic(index+1)}"></button>`
+  const board = $("galleryBoard");
+  if(!board) return;
+  board.innerHTML = gallerySlides.map(slide =>
+    `<figure class="gallery-card">
+       <img src="${esc(slide.src)}" alt="${esc(slide.alt)}" loading="lazy">
+       <span>${esc(slide.caption)}</span>
+     </figure>`
   ).join("");
-  thumbsWrap.innerHTML = gallerySlides.map((slide,index) =>
-    `<button type="button" class="gallery-thumb${index===0?" active":""}" data-index="${index}" aria-label="عرض ${slide.alt}">
-       <img src="${slide.src}" alt="" loading="lazy">
-     </button>`
-  ).join("");
-
-  function showSlide(index){
-    galleryIndex = (index + gallerySlides.length) % gallerySlides.length;
-    const slide = gallerySlides[galleryIndex];
-    mainImage.classList.add("is-changing");
-    window.setTimeout(() => {
-      mainImage.src = slide.src;
-      mainImage.alt = slide.alt;
-      caption.textContent = slide.caption;
-      count.textContent = `${arabic(galleryIndex+1)} / ${arabic(gallerySlides.length)}`;
-      mainImage.classList.remove("is-changing");
-    }, 180);
-    document.querySelectorAll(".gallery-dot").forEach((dot,i)=>dot.classList.toggle("active",i===galleryIndex));
-    document.querySelectorAll(".gallery-thumb").forEach((thumb,i)=>thumb.classList.toggle("active",i===galleryIndex));
-  }
-  function stopTimer(){
-    if(galleryTimer){window.clearInterval(galleryTimer);galleryTimer=null;}
-  }
-  function startTimer(){
-    stopTimer();
-    if(!galleryPaused) galleryTimer = window.setInterval(()=>showSlide(galleryIndex+1), 3000);
-  }
-  function updatePlayButton(){
-    $("galleryPlayIcon").textContent = galleryPaused ? "▶" : "Ⅱ";
-    $("galleryPlayText").textContent = galleryPaused ? "تشغيل العرض" : "إيقاف العرض";
-    playButton.setAttribute("aria-label", galleryPaused ? "تشغيل عرض الصور" : "إيقاف عرض الصور");
-  }
-
-  $("galleryPrev").addEventListener("click",()=>{showSlide(galleryIndex-1);startTimer();});
-  $("galleryNext").addEventListener("click",()=>{showSlide(galleryIndex+1);startTimer();});
-  dotsWrap.addEventListener("click",event=>{
-    const target=event.target.closest("[data-index]");
-    if(target){showSlide(Number(target.dataset.index));startTimer();}
-  });
-  thumbsWrap.addEventListener("click",event=>{
-    const target=event.target.closest("[data-index]");
-    if(target){showSlide(Number(target.dataset.index));startTimer();}
-  });
-  playButton.addEventListener("click",()=>{
-    galleryPaused=!galleryPaused;
-    updatePlayButton();
-    startTimer();
-  });
-
-  const slider=$("gallerySlider");
-  slider.addEventListener("mouseenter",stopTimer);
-  slider.addEventListener("mouseleave",startTimer);
-  slider.addEventListener("focusin",stopTimer);
-  slider.addEventListener("focusout",startTimer);
-  document.addEventListener("visibilitychange",()=>document.hidden?stopTimer():startTimer());
-  updatePlayButton();
-  startTimer();
 }
 
 async function init(){
   try{
-    [project,units,sites]=await Promise.all([loadJSON("data/project.json"),loadJSON("data/units.json"),loadJSON("data/sites.json")]);
-    $("totalUnits").textContent=number(project.project_total_units || project.units_count,0);
-    $("availableUnits").textContent=number(project.available_count,0);
-    $("siteCount").textContent=number(project.blocks_count || project.sites_count,0);
-    $("availableStamp").textContent=number(project.available_count,0);
-    $("footerSold").textContent=number(project.sold_count,0);
-    $("footerReserved").textContent=number(project.reserved_count,0);
-    $("footerAvailable").textContent=number(project.available_count,0);
+    [project,units,sites,planModels]=await Promise.all([loadJSON("data/project.json"),loadJSON("data/units.json"),loadJSON("data/sites.json"),loadJSON("data/plan-models.json")]);
+    const counts = units.reduce((acc, unit) => {
+      acc.total += 1;
+      if (unit.status === "sold") acc.sold += 1;
+      else if (unit.status === "reserved") acc.reserved += 1;
+      else if (unit.status === "available") acc.available += 1;
+      return acc;
+    }, {total:0, sold:0, reserved:0, available:0});
+    $("totalUnits").textContent=number(project.project_total_units || counts.total,0);
+    $("availableUnits").textContent=number(counts.available,0);
+    $("siteCount").textContent=number(sites.length,0);
+    $("availableStamp").textContent=number(counts.available,0);
     document.title="عالية طويق | الوحدات السكنية";
     populateFilters();renderSites();renderUnits();initGallery();
     $("siteFilter").addEventListener("change",()=>{updateBuildingFilter();renderUnits();document.querySelectorAll(".site-chip").forEach(item=>item.classList.toggle("active",item.dataset.block===$("siteFilter").value));});
-    ["buildingFilter","floorFilter","typeFilter","sortFilter","searchInput"].forEach(id=>$(id).addEventListener("input",renderUnits));
+    ["buildingFilter","floorFilter","typeFilter","bedroomFilter","sortFilter","searchInput"].forEach(id=>$(id).addEventListener("input",renderUnits));
     $("dialogClose").addEventListener("click",()=>$("unitDialog").close());
     $("unitDialog").addEventListener("click",event=>{if(event.target===$("unitDialog"))$("unitDialog").close();});
+    $("sentClose").addEventListener("click",()=>$("sentDialog").close());
+    $("sentDialog").addEventListener("click",event=>{if(event.target===$("sentDialog"))$("sentDialog").close();});
     $("menuBtn").addEventListener("click",()=>$("nav").classList.toggle("open"));
     document.querySelectorAll(".nav a").forEach(link=>link.addEventListener("click",()=>$("nav").classList.remove("open")));
     $("leadForm").addEventListener("submit", async event=>{
@@ -343,18 +423,25 @@ async function init(){
           `طريقة التواصل المفضلة: ${payload.contactMethod}`,
           `رقم الطلب: ${result.leadId||result.requestId||"—"}`
         ].join("\n");
-        feedback.replaceChildren();
-        const success=document.createElement("span");
-        success.textContent=`تم تسجيل طلبك بنجاح وتوجيهه إلى ${salesName}. `;
-        feedback.append(success);
+        feedback.textContent=`تم تسجيل طلبك وتوجيهه إلى ${salesName}.`;
+        const sentMessage=$("sentMessage");
+        sentMessage.replaceChildren();
+        const line=document.createElement("span");
+        line.textContent=`وصل طلبك إلى ${salesName}.`;
+        const note=document.createElement("span");
+        note.className="sent-note";
+        note.textContent="إذا رغبت في التواصل، تواصل معنا عبر واتساب.";
+        sentMessage.append(line, note);
         if(salesPhone){
           const link=document.createElement("a");
+          link.className="sent-whatsapp";
           link.href=`https://wa.me/${salesPhone}?text=${encodeURIComponent(message)}`;
           link.target="_blank";
           link.rel="noopener noreferrer";
-          link.textContent="اضغط هنا لبدء محادثة واتساب";
-          feedback.append(link);
+          link.textContent="تواصل معنا واتساب";
+          sentMessage.append(link);
         }
+        $("sentDialog").showModal();
         leadForm.reset();
       }catch(error){
         feedback.textContent=error.message||"تعذر تسجيل الطلب. يرجى المحاولة لاحقاً.";

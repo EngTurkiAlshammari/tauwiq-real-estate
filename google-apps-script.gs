@@ -6,8 +6,9 @@
 
 const SHEET_NAME = 'Leads';
 const SALES_REPS = [
-  { name: 'مكتب المبيعات ١', phone: '966563673401' },
-  { name: 'مكتب المبيعات ٢', phone: '966547965350' }
+  { name: 'علي النشيلي', phone: '966563673401' },
+  { name: 'سابر البيشي', phone: '966547965350' },
+  { name: 'تركي الشمري', phone: '966547965350' }
 ];
 const HEADERS = [
   'تاريخ التسجيل',

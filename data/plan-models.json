@@ -1,0 +1,506 @@
+{
+  "block1-building1-A1": [
+    {
+      "src": "images/plans/plan-page-004.jpg",
+      "caption": "البلوك ١ · المبنى ١ · الدور الأرضي"
+    }
+  ],
+  "block1-building1-B1": [
+    {
+      "src": "images/plans/plan-page-004.jpg",
+      "caption": "البلوك ١ · المبنى ١ · الدور الأرضي"
+    }
+  ],
+  "block1-building2-A1": [
+    {
+      "src": "images/plans/plan-page-007.jpg",
+      "caption": "البلوك ١ · المبنى ٢ · الدور الأرضي"
+    }
+  ],
+  "block1-building2-B1": [
+    {
+      "src": "images/plans/plan-page-007.jpg",
+      "caption": "البلوك ١ · المبنى ٢ · الدور الأرضي"
+    }
+  ],
+  "block1-building3-A1": [
+    {
+      "src": "images/plans/plan-page-010.jpg",
+      "caption": "البلوك ١ · المبنى ٣ · الدور الأرضي"
+    }
+  ],
+  "block1-building3-A2": [
+    {
+      "src": "images/plans/plan-page-011.jpg",
+      "caption": "البلوك ١ · المبنى ٣ · الدور الأول"
+    }
+  ],
+  "block1-building4-A1": [
+    {
+      "src": "images/plans/plan-page-013.jpg",
+      "caption": "البلوك ١ · المبنى ٤ · الدور الأرضي"
+    }
+  ],
+  "block1-building4-A2": [
+    {
+      "src": "images/plans/plan-page-014.jpg",
+      "caption": "البلوك ١ · المبنى ٤ · الدور الأول"
+    }
+  ],
+  "block1-building4-A3": [
+    {
+      "src": "images/plans/plan-page-015.jpg",
+      "caption": "البلوك ١ · المبنى ٤ · الدور الثاني"
+    }
+  ],
+  "block1-building5-A1": [
+    {
+      "src": "images/plans/plan-page-016.jpg",
+      "caption": "البلوك ١ · المبنى ٥ · الدور الأرضي"
+    }
+  ],
+  "block1-building5-B1": [
+    {
+      "src": "images/plans/plan-page-016.jpg",
+      "caption": "البلوك ١ · المبنى ٥ · الدور الأرضي"
+    }
+  ],
+  "block1-building6-A1": [
+    {
+      "src": "images/plans/plan-page-019.jpg",
+      "caption": "البلوك ١ · المبنى ٦ · الدور الأرضي"
+    }
+  ],
+  "block1-building6-B1": [
+    {
+      "src": "images/plans/plan-page-019.jpg",
+      "caption": "البلوك ١ · المبنى ٦ · الدور الأرضي"
+    }
+  ],
+  "block1-building7-A1": [
+    {
+      "src": "images/plans/plan-page-022.jpg",
+      "caption": "البلوك ١ · المبنى ٧ · الدور الأرضي"
+    }
+  ],
+  "block1-building7-B1": [
+    {
+      "src": "images/plans/plan-page-022.jpg",
+      "caption": "البلوك ١ · المبنى ٧ · الدور الأرضي"
+    }
+  ],
+  "block2-building1-B1": [
+    {
+      "src": "images/plans/plan-page-026.jpg",
+      "caption": "البلوك ٢ · المبنى ١ · الدور الأرضي"
+    }
+  ],
+  "block2-building1-B2": [
+    {
+      "src": "images/plans/plan-page-027.jpg",
+      "caption": "البلوك ٢ · المبنى ١ · الدور الأول"
+    }
+  ],
+  "block2-building2-A1": [
+    {
+      "src": "images/plans/plan-page-029.jpg",
+      "caption": "البلوك ٢ · المبنى ٢ · الدور الأرضي"
+    }
+  ],
+  "block2-building2-A2": [
+    {
+      "src": "images/plans/plan-page-030.jpg",
+      "caption": "البلوك ٢ · المبنى ٢ · الدور الأول"
+    }
+  ],
+  "block2-building2-A3": [
+    {
+      "src": "images/plans/plan-page-031.jpg",
+      "caption": "البلوك ٢ · المبنى ٢ · الدور الثاني"
+    }
+  ],
+  "block2-building3-A1": [
+    {
+      "src": "images/plans/plan-page-032.jpg",
+      "caption": "البلوك ٢ · المبنى ٣ · الدور الأرضي"
+    }
+  ],
+  "block2-building3-A2": [
+    {
+      "src": "images/plans/plan-page-033.jpg",
+      "caption": "البلوك ٢ · المبنى ٣ · الدور الأول"
+    }
+  ],
+  "block2-building3-A3": [
+    {
+      "src": "images/plans/plan-page-034.jpg",
+      "caption": "البلوك ٢ · المبنى ٣ · الدور الثاني"
+    }
+  ],
+  "block2-building3-B2": [
+    {
+      "src": "images/plans/plan-page-033.jpg",
+      "caption": "البلوك ٢ · المبنى ٣ · الدور الأول"
+    }
+  ],
+  "block2-building3-B3": [
+    {
+      "src": "images/plans/plan-page-034.jpg",
+      "caption": "البلوك ٢ · المبنى ٣ · الدور الثاني"
+    }
+  ],
+  "block2-building4-A1": [
+    {
+      "src": "images/plans/plan-page-035.jpg",
+      "caption": "البلوك ٢ · المبنى ٤ · الدور الأرضي"
+    }
+  ],
+  "block2-building4-A2": [
+    {
+      "src": "images/plans/plan-page-036.jpg",
+      "caption": "البلوك ٢ · المبنى ٤ · الدور الأول"
+    }
+  ],
+  "block2-building4-B1": [
+    {
+      "src": "images/plans/plan-page-035.jpg",
+      "caption": "البلوك ٢ · المبنى ٤ · الدور الأرضي"
+    }
+  ],
+  "block2-building4-B2": [
+    {
+      "src": "images/plans/plan-page-036.jpg",
+      "caption": "البلوك ٢ · المبنى ٤ · الدور الأول"
+    }
+  ],
+  "block2-building4-B3": [
+    {
+      "src": "images/plans/plan-page-037.jpg",
+      "caption": "البلوك ٢ · المبنى ٤ · الدور الثاني"
+    }
+  ],
+  "block2-building5-A1": [
+    {
+      "src": "images/plans/plan-page-038.jpg",
+      "caption": "البلوك ٢ · المبنى ٥ · الدور الأرضي"
+    }
+  ],
+  "block2-building5-B1": [
+    {
+      "src": "images/plans/plan-page-038.jpg",
+      "caption": "البلوك ٢ · المبنى ٥ · الدور الأرضي"
+    }
+  ],
+  "block2-building6-A1": [
+    {
+      "src": "images/plans/plan-page-041.jpg",
+      "caption": "البلوك ٢ · المبنى ٦ · الدور الأرضي"
+    }
+  ],
+  "block2-building6-A3": [
+    {
+      "src": "images/plans/plan-page-043.jpg",
+      "caption": "البلوك ٢ · المبنى ٦ · الدور الثاني"
+    }
+  ],
+  "block2-building6-B1": [
+    {
+      "src": "images/plans/plan-page-041.jpg",
+      "caption": "البلوك ٢ · المبنى ٦ · الدور الأرضي"
+    }
+  ],
+  "block3-building1-A1": [
+    {
+      "src": "images/plans/plan-page-045.jpg",
+      "caption": "البلوك ٣ · المبنى ١ · الدور الأرضي"
+    }
+  ],
+  "block3-building1-A2": [
+    {
+      "src": "images/plans/plan-page-046.jpg",
+      "caption": "البلوك ٣ · المبنى ١ · الدور الأول"
+    }
+  ],
+  "block3-building1-B1": [
+    {
+      "src": "images/plans/plan-page-045.jpg",
+      "caption": "البلوك ٣ · المبنى ١ · الدور الأرضي"
+    }
+  ],
+  "block3-building1-B2": [
+    {
+      "src": "images/plans/plan-page-046.jpg",
+      "caption": "البلوك ٣ · المبنى ١ · الدور الأول"
+    }
+  ],
+  "block3-building2-A1": [
+    {
+      "src": "images/plans/plan-page-048.jpg",
+      "caption": "البلوك ٣ · المبنى ٢ · الدور الأرضي"
+    }
+  ],
+  "block3-building2-A2": [
+    {
+      "src": "images/plans/plan-page-049.jpg",
+      "caption": "البلوك ٣ · المبنى ٢ · الدور الأول"
+    }
+  ],
+  "block3-building2-B1": [
+    {
+      "src": "images/plans/plan-page-048.jpg",
+      "caption": "البلوك ٣ · المبنى ٢ · الدور الأرضي"
+    }
+  ],
+  "block3-building2-B2": [
+    {
+      "src": "images/plans/plan-page-049.jpg",
+      "caption": "البلوك ٣ · المبنى ٢ · الدور الأول"
+    }
+  ],
+  "block3-building3-A1": [
+    {
+      "src": "images/plans/plan-page-051.jpg",
+      "caption": "البلوك ٣ · المبنى ٣ · الدور الأرضي"
+    }
+  ],
+  "block3-building3-A2": [
+    {
+      "src": "images/plans/plan-page-052.jpg",
+      "caption": "البلوك ٣ · المبنى ٣ · الدور الأول"
+    }
+  ],
+  "block3-building3-B1": [
+    {
+      "src": "images/plans/plan-page-051.jpg",
+      "caption": "البلوك ٣ · المبنى ٣ · الدور الأرضي"
+    }
+  ],
+  "block3-building3-B2": [
+    {
+      "src": "images/plans/plan-page-052.jpg",
+      "caption": "البلوك ٣ · المبنى ٣ · الدور الأول"
+    }
+  ],
+  "block3-building3-B3": [
+    {
+      "src": "images/plans/plan-page-053.jpg",
+      "caption": "البلوك ٣ · المبنى ٣ · الدور الثاني"
+    }
+  ],
+  "block4-building1-A1": [
+    {
+      "src": "images/plans/plan-page-055.jpg",
+      "caption": "البلوك ٤ · المبنى ١ · الدور الأرضي"
+    }
+  ],
+  "block4-building1-B1": [
+    {
+      "src": "images/plans/plan-page-055.jpg",
+      "caption": "البلوك ٤ · المبنى ١ · الدور الأرضي"
+    }
+  ],
+  "block4-building2-A1": [
+    {
+      "src": "images/plans/plan-page-058.jpg",
+      "caption": "البلوك ٤ · المبنى ٢ · الدور الأرضي"
+    }
+  ],
+  "block4-building3-A1": [
+    {
+      "src": "images/plans/plan-page-061.jpg",
+      "caption": "البلوك ٤ · المبنى ٣ · الدور الأرضي"
+    }
+  ],
+  "block4-building3-A3": [
+    {
+      "src": "images/plans/plan-page-063.jpg",
+      "caption": "البلوك ٤ · المبنى ٣ · الدور الثاني"
+    }
+  ],
+  "block4-building4-A1": [
+    {
+      "src": "images/plans/plan-page-064.jpg",
+      "caption": "البلوك ٤ · المبنى ٤ · الدور الأرضي"
+    }
+  ],
+  "block4-building4-A2": [
+    {
+      "src": "images/plans/plan-page-065.jpg",
+      "caption": "البلوك ٤ · المبنى ٤ · الدور الأول"
+    }
+  ],
+  "block4-building4-A3": [
+    {
+      "src": "images/plans/plan-page-066.jpg",
+      "caption": "البلوك ٤ · المبنى ٤ · الدور الثاني"
+    }
+  ],
+  "block4-building5-A1": [
+    {
+      "src": "images/plans/plan-page-067.jpg",
+      "caption": "البلوك ٤ · المبنى ٥ · الدور الأرضي"
+    }
+  ],
+  "block4-building5-B1": [
+    {
+      "src": "images/plans/plan-page-067.jpg",
+      "caption": "البلوك ٤ · المبنى ٥ · الدور الأرضي"
+    }
+  ],
+  "block4-building6-A1": [
+    {
+      "src": "images/plans/plan-page-070.jpg",
+      "caption": "البلوك ٤ · المبنى ٦ · الدور الأرضي"
+    }
+  ],
+  "block4-building6-B1": [
+    {
+      "src": "images/plans/plan-page-070.jpg",
+      "caption": "البلوك ٤ · المبنى ٦ · الدور الأرضي"
+    }
+  ],
+  "block5-building1-A1": [
+    {
+      "src": "images/plans/plan-page-074.jpg",
+      "caption": "البلوك ٥ · المبنى ١ · الدور الأرضي"
+    }
+  ],
+  "block5-building1-B1": [
+    {
+      "src": "images/plans/plan-page-074.jpg",
+      "caption": "البلوك ٥ · المبنى ١ · الدور الأرضي"
+    }
+  ],
+  "block5-building2-A1": [
+    {
+      "src": "images/plans/plan-page-077.jpg",
+      "caption": "البلوك ٥ · المبنى ٢ · الدور الأول"
+    }
+  ],
+  "block5-building3-A1": [
+    {
+      "src": "images/plans/plan-page-080.jpg",
+      "caption": "البلوك ٥ · المبنى ٣ · الدور الأرضي"
+    }
+  ],
+  "block5-building3-B1": [
+    {
+      "src": "images/plans/plan-page-080.jpg",
+      "caption": "البلوك ٥ · المبنى ٣ · الدور الأرضي"
+    }
+  ],
+  "block5-building4-A1": [
+    {
+      "src": "images/plans/plan-page-083.jpg",
+      "caption": "البلوك ٥ · المبنى ٤ · الدور الأرضي"
+    }
+  ],
+  "block5-building4-A2": [
+    {
+      "src": "images/plans/plan-page-084.jpg",
+      "caption": "البلوك ٥ · المبنى ٤ · الدور الأول"
+    }
+  ],
+  "block5-building4-B1": [
+    {
+      "src": "images/plans/plan-page-083.jpg",
+      "caption": "البلوك ٥ · المبنى ٤ · الدور الأرضي"
+    }
+  ],
+  "block5-building5-A1": [
+    {
+      "src": "images/plans/plan-page-097.jpg",
+      "caption": "البلوك ٥ · المبنى ٥ · الدور الأرضي"
+    }
+  ],
+  "block6-building1-A1": [
+    {
+      "src": "images/plans/plan-page-086.jpg",
+      "caption": "البلوك ٦ · فيلا ١ أ١ وفيلا ٢ ب١ · الدور الأرضي"
+    }
+  ],
+  "block6-building1-A2": [
+    {
+      "src": "images/plans/plan-page-087.jpg",
+      "caption": "البلوك ٦ · فيلا ١ أ١ وفيلا ٢ ب١ · الدور الأول"
+    }
+  ],
+  "block6-building1-A3": [
+    {
+      "src": "images/plans/plan-page-088.jpg",
+      "caption": "البلوك ٦ · فيلا ١ أ١ وفيلا ٢ ب١ · الدور الثاني"
+    }
+  ],
+  "block6-building1-B1": [
+    {
+      "src": "images/plans/plan-page-086.jpg",
+      "caption": "البلوك ٦ · فيلا ١ أ١ وفيلا ٢ ب١ · الدور الأرضي"
+    }
+  ],
+  "block6-building1-B2": [
+    {
+      "src": "images/plans/plan-page-087.jpg",
+      "caption": "البلوك ٦ · فيلا ١ أ١ وفيلا ٢ ب١ · الدور الأول"
+    }
+  ],
+  "block6-building1-B3": [
+    {
+      "src": "images/plans/plan-page-088.jpg",
+      "caption": "البلوك ٦ · فيلا ١ أ١ وفيلا ٢ ب١ · الدور الثاني"
+    }
+  ],
+  "block7-building1-A1": [
+    {
+      "src": "images/plans/plan-page-090.jpg",
+      "caption": "البلوك ٧ · المبنى ١ · الدور الأرضي"
+    }
+  ],
+  "block7-building1-A2": [
+    {
+      "src": "images/plans/plan-page-091.jpg",
+      "caption": "البلوك ٧ · المبنى ١ · الدور الأول"
+    }
+  ],
+  "block7-building1-B1": [
+    {
+      "src": "images/plans/plan-page-090.jpg",
+      "caption": "البلوك ٧ · المبنى ١ · الدور الأرضي"
+    }
+  ],
+  "block7-building1-B2": [
+    {
+      "src": "images/plans/plan-page-091.jpg",
+      "caption": "البلوك ٧ · المبنى ١ · الدور الأول"
+    }
+  ],
+  "block7-building2-A1": [
+    {
+      "src": "images/plans/plan-page-093.jpg",
+      "caption": "البلوك ٧ · المبنى ٢ · الدور الأرضي"
+    }
+  ],
+  "block7-building2-A2": [
+    {
+      "src": "images/plans/plan-page-094.jpg",
+      "caption": "البلوك ٧ · المبنى ٢ · الدور الأول"
+    }
+  ],
+  "block7-building2-B1": [
+    {
+      "src": "images/plans/plan-page-093.jpg",
+      "caption": "البلوك ٧ · المبنى ٢ · الدور الأرضي"
+    }
+  ],
+  "block7-building2-B2": [
+    {
+      "src": "images/plans/plan-page-094.jpg",
+      "caption": "البلوك ٧ · المبنى ٢ · الدور الأول"
+    }
+  ],
+  "block7-building2-B3": [
+    {
+      "src": "images/plans/plan-page-095.jpg",
+      "caption": "البلوك ٧ · المبنى ٢ · الدور الثاني"
+    }
+  ]
+}

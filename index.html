@@ -1,18 +1,31 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#633843">
-  <meta name="description" content="استعرض وحدات مشروع عالية طويق وتفاصيلها">
+  <meta name="description" content="موقع مشروع عالية طويق السكني في حي طويق بالرياض — استعرض الوحدات والمساحات وتواصل مع استشاريي المبيعات.">
+  <meta name="robots" content="index,follow">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ar_SA">
+  <meta property="og:title" content="عالية طويق | موقع المشروع">
+  <meta property="og:description" content="مشروع سكني في حي طويق بالرياض. التقاء الإبداع مع العقار.">
+  <meta property="og:image" content="images/site-preview.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="عالية طويق | موقع المشروع">
+  <meta name="twitter:description" content="مشروع سكني في حي طويق بالرياض. التقاء الإبداع مع العقار.">
+  <meta name="twitter:image" content="images/site-preview.jpg">
   <title>عالية طويق | الوحدات السكنية</title>
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="tauwiq-favicon-pack/favicon-512.png" sizes="512x512">
+  <link rel="apple-touch-icon" href="tauwiq-favicon-pack/apple-touch-icon.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@500;600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="assets/css/site.css">
-  <link rel="stylesheet" href="assets/css/modern.css">
+  <link rel="stylesheet" href="assets/css/modern.css?v=42">
 
   <!-- تنسيق بسيط لأيقونة زر المعرض فقط -->
   <style>
@@ -36,25 +49,28 @@
   <header class="header">
     <a class="brand" href="#home" aria-label="مجموعة الرصيص">
       <img class="company-logo"
-           src="assets/images/alrossais-logo-transparent.png"
+           src="images/alrossais-logo-transparent.png?v=2"
            alt="شعار مجموعة عبدالمحسن الرصيص وأبنائه">
       <span class="brand-divider"></span>
       <span class="project-brand">
         <img class="tauwiq-logo"
-             src="assets/images/tauwiq-logo-transparent.png"
+             src="images/tauwiq-logo-transparent.png?v=2"
              alt="شعار عالية طويق">
       </span>
     </a>
 
     <nav class="nav" id="nav">
       <a href="#about">عن المشروع</a>
-      <a href="#sites">البلوكات</a>
       <a href="#gallery">صور المشروع</a>
+      <a href="#sites">البلوكات</a>
       <a href="#units">الوحدات السكنية</a>
       <a href="#contact">تواصل معنا</a>
+      <a href="#location">الموقع</a>
     </nav>
 
-    <a class="nav-cta" href="#units">استعرض الوحدات <span>↙</span></a>
+    <div class="header-actions">
+      <a class="nav-cta" href="#units">استعرض الوحدات <span>↙</span></a>
+    </div>
     <button class="menu-btn" id="menuBtn" aria-label="فتح القائمة">☰</button>
   </header>
 
@@ -67,8 +83,7 @@
 
       <div class="hero-content">
         <p class="eyebrow light">عالية طويق</p>
-        <h1>اختر وحدتك<br><em>في عالية طويق</em></h1>
-        <p class="hero-tagline">مشروع سكني في غرب الرياض</p>
+        <h1>التقاء الإبداع<br><em>مع العقار</em></h1>
         <p class="hero-description">استعرض تفاصيل الوحدات ومساحاتها وحالة التوفر.</p>
         <a class="primary-btn" href="#units">اكتشف الوحدات <span>←</span></a>
       </div>
@@ -89,7 +104,7 @@
       <div class="intro-grid">
         <div>
           <p class="eyebrow">مشروع عالية طويق</p>
-          <h2>التقاء الإبداع<br>مع العقار.</h2>
+          <h2>التقاء الإبداع<br><em>مع العقار</em></h2>
         </div>
 
         <div class="intro-copy">
@@ -104,12 +119,34 @@
       </div>
     </section>
 
+    <!-- ===================== معرض الصور ===================== -->
+    <section class="gallery-section" id="gallery">
+      <div class="section-wrap">
+        <div class="section-heading gallery-heading">
+          <div>
+            <div class="section-kicker"><span>٠٢</span><i></i><span>صور المشروع</span></div>
+            <h2>جولة في عالية طويق<br><em>شاهد التفاصيل بنفسك.</em></h2>
+          </div>
+          <p>صور من وحدة العرض والمجالس والمطبخ وغرف النوم.</p>
+        </div>
+
+        <div class="gallery-board" id="galleryBoard" aria-label="معرض صور عالية طويق"></div>
+
+        <div class="nearby-strip" aria-label="المواقع القريبة">
+          <div><strong>٦ دقائق</strong><span>حديقة الأمير محمد بن سلمان</span></div>
+          <div><strong>٨ دقائق</strong><span>حدائق الملك عبدالله</span></div>
+          <div><strong>٩ دقائق</strong><span>محطة المترو</span></div>
+          <div><strong>٢٠ دقيقة</strong><span>مشروع القدية الترفيهي</span></div>
+        </div>
+      </div>
+    </section>
+
     <!-- ===================== البلوكات ===================== -->
     <section class="sites-section" id="sites">
       <div class="section-wrap">
         <div class="section-heading">
           <div>
-            <div class="section-kicker"><span>٠٢</span><i></i><span>بلوكات المشروع</span></div>
+            <div class="section-kicker"><span>٠٣</span><i></i><span>بلوكات المشروع</span></div>
             <h2>البلوكات السبعة<br><em>اختر البلوك المناسب.</em></h2>
           </div>
           <p>اختر البلوك لعرض الوحدات التابعة له.</p>
@@ -117,7 +154,7 @@
 
         <div class="map-layout">
           <div class="map-image-wrap">
-            <img src="assets/images/official-location-map.jpg"
+            <img src="images/official-location-map.jpg"
                  alt="خريطة بلوكات مشروع عالية طويق كما وردت في كتيب نماذج الوحدات">
             <span class="map-caption">خريطة البلوكات — عالية طويق</span>
           </div>
@@ -128,80 +165,11 @@
       </div>
     </section>
 
-    <!-- ===================== معرض الصور ===================== -->
-    <section class="gallery-section" id="gallery">
-      <div class="section-wrap">
-        <div class="section-heading gallery-heading">
-          <div>
-            <div class="section-kicker"><span>٠٣</span><i></i><span>صور المشروع</span></div>
-            <h2>جولة في عالية طويق<br><em>شاهد التفاصيل بنفسك.</em></h2>
-          </div>
-          <p>صور من الواجهات والمساحات الداخلية ومرافق الوحدات.</p>
-        </div>
-
-        <div class="gallery-slider" id="gallerySlider" aria-label="معرض صور عالية طويق">
-
-          <div class="gallery-stage">
-            <img class="gallery-main-image" id="galleryMainImage"
-                 src="assets/images/gallery/photo-01.webp"
-                 alt="مساحة معيشة واسعة"
-                 loading="lazy">
-            <div class="gallery-image-shade"></div>
-
-            <div class="gallery-caption">
-              <span class="gallery-caption-kicker">عالية طويق</span>
-              <strong id="galleryCaption">مساحة معيشة واسعة</strong>
-            </div>
-
-            <button class="gallery-arrow gallery-prev" id="galleryPrev" type="button" aria-label="الصورة السابقة">‹</button>
-            <button class="gallery-arrow gallery-next" id="galleryNext" type="button" aria-label="الصورة التالية">›</button>
-          </div>
-
-          <div class="gallery-controls">
-            <div class="gallery-position">
-              <strong id="galleryCount">١ / ١٠</strong>
-              <span>صور المشروع</span>
-            </div>
-
-            <div class="gallery-dots" id="galleryDots" aria-label="اختيار الصورة"></div>
-
-            <button class="gallery-play" id="galleryPlay" type="button" aria-label="إيقاف عرض الصور">
-              <!-- الأيقونة تُبنى تلقائياً عبر السكربت في الأسفل -->
-              <span id="galleryPlayIcon" class="gallery-play-icon" aria-hidden="true"></span>
-              <span id="galleryPlayText">إيقاف العرض</span>
-            </button>
-          </div>
-
-          <div class="gallery-thumbnails" id="galleryThumbnails" aria-label="صور المعرض المصغرة"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===================== الأماكن القريبة ===================== -->
-    <section class="nearby-section">
-      <div class="section-wrap">
-        <div class="section-heading">
-          <div>
-            <div class="section-kicker"><span>٠٤</span><i></i><span>الأماكن القريبة</span></div>
-            <h2>كل ما تحتاجه<br><em>بالقرب منك.</em></h2>
-          </div>
-          <p>موقع مميز بالقرب من أبرز المرافق والخدمات.</p>
-        </div>
-
-        <div class="nearby-grid">
-          <div><strong>٦ دقائق</strong><span>حديقة الأمير محمد بن سلمان</span></div>
-          <div><strong>٨ دقائق</strong><span>حدائق الملك عبدالله</span></div>
-          <div><strong>٩ دقائق</strong><span>محطة المترو</span></div>
-          <div><strong>٢٠ دقيقة</strong><span>مشروع القدية الترفيهي</span></div>
-        </div>
-      </div>
-    </section>
-
     <!-- ===================== الوحدات ===================== -->
     <section class="units-section section-wrap" id="units">
       <div class="section-heading units-heading">
         <div>
-          <div class="section-kicker"><span>٠٥</span><i></i><span>الوحدات السكنية</span></div>
+          <div class="section-kicker"><span>٠٤</span><i></i><span>الوحدات السكنية</span></div>
           <h2>اختر وحدتك.</h2>
           <p>تعرّف على تفاصيل الوحدات ومساحاتها ومواصفاتها.</p>
         </div>
@@ -237,7 +205,13 @@
             <option value="فيلا">فيلا</option>
           </select>
 
+          <select id="bedroomFilter" aria-label="عدد غرف النوم">
+            <option value="">جميع غرف النوم</option>
+          </select>
+
           <select id="sortFilter" aria-label="ترتيب النتائج">
+            <option value="price-asc" selected>السعر: من الأقل إلى الأعلى</option>
+            <option value="price-desc">السعر: من الأعلى إلى الأقل</option>
             <option value="area-asc">المساحة: الأقل أولاً</option>
             <option value="area-desc">المساحة: الأكبر أولاً</option>
           </select>
@@ -261,75 +235,97 @@
   <!-- ===================== تواصل + تسجيل اهتمام ===================== -->
   <div class="cta-split">
 
-    <section class="contact-section section-wrap" id="contact">
-      <div class="contact-copy">
-        <div class="section-kicker"><span>٠٦</span><i></i><span>تواصل معنا</span></div>
+    <section class="contact-box" id="contact">
+      <div class="visit-side">
+        <div class="section-kicker"><span>٠٥</span><i></i><span>تواصل معنا</span></div>
         <h2>لحجز وحدتك،<br><em>تواصل مع المبيعات.</em></h2>
         <p>يسعد فريق المبيعات بالرد على استفساراتك ومساعدتك في اختيار الوحدة المناسبة.</p>
+        <div class="contact-numbers">
+          <a href="tel:0563673401">
+            <span>استشاري المبيعات</span>
+            <strong>علي النشيلي</strong>
+            <strong class="phone-number" dir="ltr">056 367 3401</strong>
+          </a>
+          <a href="tel:0547965350">
+            <span>استشاري المبيعات</span>
+            <strong>سابر البيشي</strong>
+            <strong class="phone-number" dir="ltr">054 796 5350</strong>
+          </a>
+          <a href="tel:0547965350">
+            <span>استشاري المبيعات</span>
+            <strong>تركي الشمري</strong>
+            <strong class="phone-number" dir="ltr">054 796 5350</strong>
+          </a>
+        </div>
       </div>
 
-      <div class="contact-numbers">
-        <a href="tel:0563673401">
-          <span>مكتب المبيعات ١</span>
-          <strong class="phone-number"><bdi dir="ltr">٠٥٦٣٦٧٣٤٠١</bdi></strong>
-        </a>
-        <a href="tel:0547965350">
-          <span>مكتب المبيعات ٢</span>
-          <strong class="phone-number"><bdi dir="ltr">٠٥٤٧٩٦٥٣٥٠</bdi></strong>
-        </a>
+      <div class="lead-section" id="lead">
+        <div class="lead-heading">
+          <div class="section-kicker"><i></i><span>سجّل اهتمامك</span></div>
+          <h2>خلّنا نتواصل معك.</h2>
+          <p>عبّئ البيانات التالية، وسيتواصل معك فريق المبيعات لمساعدتك.</p>
+        </div>
+
+        <form class="lead-form" id="leadForm">
+          <label class="lead-honeypot" aria-hidden="true">اترك هذا الحقل فارغاً<input name="website" type="text" tabindex="-1" autocomplete="off"></label>
+          <div class="lead-fields">
+            <label>
+              <b>الاسم الأول</b>
+              <input name="firstName" type="text" autocomplete="given-name" placeholder="اكتب اسمك" required>
+            </label>
+
+            <label>
+              <b>اسم العائلة</b>
+              <input name="lastName" type="text" autocomplete="family-name" placeholder="اكتب اسم العائلة" required>
+            </label>
+
+            <label>
+              <b>رقم الجوال</b>
+              <input name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="اكتب رقم الجوال" maxlength="20" required>
+            </label>
+
+            <label>
+              <b>طريقة التواصل المفضلة</b>
+              <select name="contactMethod">
+                <option value="واتساب">واتساب</option>
+                <option value="اتصال هاتفي">اتصال هاتفي</option>
+              </select>
+            </label>
+
+            <label class="full">
+              <b>الوحدة المهتم بها <small>(اختياري)</small></b>
+              <input name="unit" type="text" placeholder="رقم الوحدة أو البلوك">
+            </label>
+          </div>
+
+          <label class="lead-consent">
+            <input type="checkbox" name="consent" required>
+            أوافق على استخدام بياناتي للتواصل معي بخصوص المشروع.
+          </label>
+
+          <button class="lead-submit" type="submit">إرسال البيانات <span>←</span></button>
+
+          <p class="lead-feedback" id="leadFeedback" aria-live="polite">
+سيتم حفظ طلبك وتوجيهه بالتناوب إلى أحد استشاريي المبيعات.
+          </p>
+        </form>
       </div>
     </section>
 
-    <section class="lead-section section-wrap" id="lead">
-      <div class="lead-heading">
-        <div class="section-kicker"><span>٠٧</span><i></i><span>سجّل اهتمامك</span></div>
-        <h2>خلّنا نتواصل معك.</h2>
-        <p>عبّئ البيانات التالية، وسيتواصل معك فريق المبيعات لمساعدتك.</p>
-      </div>
-
-      <form class="lead-form" id="leadForm">
-        <label class="lead-honeypot" aria-hidden="true">اترك هذا الحقل فارغاً<input name="website" type="text" tabindex="-1" autocomplete="off"></label>
-        <div class="lead-fields">
-          <label>
-            <b>الاسم الأول</b>
-            <input name="firstName" type="text" autocomplete="given-name" placeholder="اكتب اسمك" required>
-          </label>
-
-          <label>
-            <b>اسم العائلة</b>
-            <input name="lastName" type="text" autocomplete="family-name" placeholder="اكتب اسم العائلة" required>
-          </label>
-
-          <label>
-            <b>رقم الجوال</b>
-            <input name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="05xxxxxxxx" maxlength="20" required>
-          </label>
-
-          <label>
-            <b>طريقة التواصل المفضلة</b>
-            <select name="contactMethod">
-              <option value="واتساب">واتساب</option>
-              <option value="اتصال هاتفي">اتصال هاتفي</option>
-            </select>
-          </label>
-
-          <label class="full">
-            <b>الوحدة المهتم بها <small>(اختياري)</small></b>
-            <input name="unit" type="text" placeholder="رقم الوحدة أو البلوك">
-          </label>
+    <section class="visit-section" id="location">
+      <div class="location-card">
+        <div class="location-copy">
+          <div class="section-kicker"><span>٠٦</span><i></i><span>الموقع</span></div>
+          <h2>عالية طويق</h2>
+          <p>حي طويق · الرياض</p>
+          <a class="location-open" href="https://maps.app.goo.gl/2owXPJoixupumDNy8" target="_blank" rel="noopener noreferrer">افتح الموقع في خرائط قوقل ←</a>
         </div>
-
-        <label class="lead-consent">
-          <input type="checkbox" name="consent" required>
-          أوافق على استخدام بياناتي للتواصل معي بخصوص المشروع.
-        </label>
-
-        <button class="lead-submit" type="submit">إرسال البيانات <span>←</span></button>
-
-        <p class="lead-feedback" id="leadFeedback" aria-live="polite">
-سيتم حفظ طلبك وتوجيهه بالتناوب إلى أحد مكتبي المبيعات.
-        </p>
-      </form>
+        <a class="location-map" href="https://maps.app.goo.gl/2owXPJoixupumDNy8" target="_blank" rel="noopener noreferrer" aria-label="موقع عالية طويق على خرائط قوقل">
+          <img src="images/location-satellite.jpg" alt="صورة قمر صناعي لموقع مشروع عالية طويق في حي طويق" width="1400" height="820" loading="eager">
+          <span class="location-pin" aria-hidden="true"></span>
+          <span class="location-badge">حي طويق · الرياض</span>
+        </a>
+      </div>
     </section>
   </div>
 
@@ -338,23 +334,17 @@
     <div class="footer-top">
       <div class="footer-logos">
         <img class="footer-company-logo"
-             src="assets/images/alrossais-logo-transparent.png"
+             src="images/alrossais-logo-transparent.png?v=2"
              alt="مجموعة عبدالمحسن الرصيص وأبنائه">
         <span></span>
         <img class="footer-project-logo"
-             src="assets/images/tauwiq-logo-transparent.png"
+             src="images/tauwiq-logo-transparent.png?v=2"
              alt="عالية طويق">
       </div>
       <p>عالية طويق · مشروع سكني في غرب الرياض</p>
     </div>
 
     <div class="footer-bottom">
-      <div class="footer-sales" aria-label="ملخص حالات الوحدات">
-        <span class="sales-title">ملخص القائمة الحالية</span>
-        <span><strong id="footerSold">—</strong> مباعة</span>
-        <span><strong id="footerReserved">—</strong> محجوزة</span>
-        <span><strong id="footerAvailable">—</strong> متاحة</span>
-      </div>
       <span class="footer-copy">عالية طويق</span>
     </div>
   </footer>
@@ -365,10 +355,19 @@
     <div id="dialogContent"></div>
   </dialog>
 
+  <dialog id="sentDialog" class="sent-dialog">
+    <div class="sent-card">
+      <span class="sent-mark" aria-hidden="true">✓</span>
+      <strong>تم الإرسال</strong>
+      <p id="sentMessage">وصل طلبك، وسيتواصل معك فريق المبيعات. إذا رغبت في التواصل، تواصل معنا عبر واتساب.</p>
+      <button type="button" id="sentClose">حسناً</button>
+    </div>
+  </dialog>
+
   <!-- ===================== السكربتات ===================== -->
 
   <!-- ١) سكربت التطبيق الرئيسي -->
-  <script src="assets/js/app.js"></script>
+  <script src="assets/js/app.js?v=29"></script>
 
   <!-- ٢) سكربت أيقونة زر المعرض: يضمن بقاء SVG حتى لو غيّر app.js النص -->
   <script>
@@ -418,7 +417,7 @@
   <script>
     (function () {
       var els = document.querySelectorAll(
-        '.intro-grid, .section-heading, .map-layout, .gallery-slider, .nearby-grid, .filter-panel'
+        '.intro-grid, .section-heading, .map-layout, .gallery-board, .nearby-grid, .filter-panel'
       );
 
       if (!('IntersectionObserver' in window)) return;
