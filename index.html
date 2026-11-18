@@ -25,7 +25,7 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@500;600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="assets/css/site.css">
-  <link rel="stylesheet" href="assets/css/modern.css?v=42">
+  <link rel="stylesheet" href="assets/css/modern.css?v=45">
 
   <!-- تنسيق بسيط لأيقونة زر المعرض فقط -->
   <style>
@@ -350,6 +350,16 @@
   </footer>
 
   <!-- ===================== نافذة تفاصيل الوحدة ===================== -->
+  <dialog id="galleryDialog" class="gallery-dialog">
+    <button type="button" class="dialog-close" id="galleryDialogClose" aria-label="إغلاق">×</button>
+    <button type="button" class="gallery-dialog-arrow gallery-dialog-prev" id="galleryDialogPrev" aria-label="الصورة السابقة">‹</button>
+    <figure>
+      <img id="galleryDialogImage" alt="">
+      <figcaption id="galleryDialogCaption"></figcaption>
+    </figure>
+    <button type="button" class="gallery-dialog-arrow gallery-dialog-next" id="galleryDialogNext" aria-label="الصورة التالية">›</button>
+  </dialog>
+
   <dialog id="unitDialog" class="unit-dialog">
     <button class="dialog-close" id="dialogClose" aria-label="إغلاق">×</button>
     <div id="dialogContent"></div>
@@ -367,7 +377,7 @@
   <!-- ===================== السكربتات ===================== -->
 
   <!-- ١) سكربت التطبيق الرئيسي -->
-  <script src="assets/js/app.js?v=29"></script>
+  <script src="assets/js/app.js?v=31"></script>
 
   <!-- ٢) سكربت أيقونة زر المعرض: يضمن بقاء SVG حتى لو غيّر app.js النص -->
   <script>

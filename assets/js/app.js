@@ -355,15 +355,117 @@ const gallerySlides = [
   {src:"images/gallery/interior-kitchen.jpg?v=2", caption:"المطبخ", alt:"المطبخ"},
   {src:"images/gallery/interior-bedroom.jpg?v=2", caption:"غرفة النوم", alt:"غرفة النوم"}
 ];
+let galleryIndex = 0;
 function initGallery(){
   const board = $("galleryBoard");
-  if(!board) return;
-  board.innerHTML = gallerySlides.map(slide =>
-    `<figure class="gallery-card">
+  const dialog = $("galleryDialog");
+  const image = $("galleryDialogImage");
+  const caption = $("galleryDialogCaption");
+  if(!board || !dialog || !image || !caption) return;
+  board.innerHTML = gallerySlides.map((slide, index) =>
+    `<button type="button" class="gallery-card" data-index="${index}" aria-label="${esc(slide.caption)}">
        <img src="${esc(slide.src)}" alt="${esc(slide.alt)}" loading="lazy">
        <span>${esc(slide.caption)}</span>
-     </figure>`
+     </button>`
   ).join("");
+  function showPhoto(index){
+    galleryIndex = (index + gallerySlides.length) % gallerySlides.length;
+    const slide = gallerySlides[galleryIndex];
+    image.src = slide.src;
+    image.alt = slide.alt;
+    caption.textContent = slide.caption;
+    if(!dialog.open) dialog.showModal();
+  }
+  let ignoreBackdrop = false;
+  board.addEventListener("click", event => {
+    const card = event.target.closest("[data-index]");
+    if(!card) return;
+    ignoreBackdrop = true;
+    showPhoto(Number(card.dataset.index));
+    window.setTimeout(() => { ignoreBackdrop = false; }, 250);
+  });
+  $("galleryDialogPrev").addEventListener("click", () => showPhoto(galleryIndex - 1));
+  $("galleryDialogNext").addEventListener("click", () => showPhoto(galleryIndex + 1));
+  $("galleryDialogClose").addEventListener("click", () => dialog.close());
+  dialog.addEventListener("click", event => {
+    if(ignoreBackdrop) return;
+    if(event.target === dialog) dialog.close();
+  });
+}
+
+function initUnitsFilterStick(){
+  const section = $("units");
+  const panel = section && section.querySelector(".filter-panel");
+  if(!section || !panel) return;
+
+  let sentinel = section.querySelector(".filter-stick-sentinel");
+  if(!sentinel){
+    sentinel = document.createElement("div");
+    sentinel.className = "filter-stick-sentinel";
+    sentinel.setAttribute("aria-hidden", "true");
+    panel.before(sentinel);
+  }
+
+  let spacer = section.querySelector(".filter-stick-spacer");
+  if(!spacer){
+    spacer = document.createElement("div");
+    spacer.className = "filter-stick-spacer";
+    spacer.hidden = true;
+    spacer.setAttribute("aria-hidden", "true");
+    panel.after(spacer);
+  }
+
+  const headerH = () => {
+    const raw = getComputedStyle(document.documentElement).getPropertyValue("--header-h").trim();
+    const n = Number.parseFloat(raw);
+    return Number.isFinite(n) ? n : 76;
+  };
+
+  const sync = () => {
+    const sectionRect = section.getBoundingClientRect();
+    const panelH = panel.offsetHeight;
+    const topGap = headerH() + 8;
+    // Visible inside units list, and scrolled past the filter's natural place.
+    const inUnits = sectionRect.top < topGap + 4 && sectionRect.bottom > topGap + panelH + 24;
+    const pastNatural = sentinel.getBoundingClientRect().top <= topGap;
+    const stick = inUnits && pastNatural;
+
+    if(stick){
+      const style = getComputedStyle(section);
+      const padL = Number.parseFloat(style.paddingLeft || "0") || 0;
+      const padR = Number.parseFloat(style.paddingRight || "0") || 0;
+      const left = sectionRect.left + padL;
+      const right = window.innerWidth - sectionRect.right + padR;
+      spacer.style.height = `${panelH}px`;
+      spacer.hidden = false;
+      panel.classList.add("is-stuck");
+      panel.style.top = `${topGap}px`;
+      panel.style.left = `${Math.max(0, left)}px`;
+      panel.style.right = `${Math.max(0, right)}px`;
+      panel.style.width = "auto";
+    }else{
+      panel.classList.remove("is-stuck");
+      panel.style.top = "";
+      panel.style.left = "";
+      panel.style.right = "";
+      panel.style.width = "";
+      spacer.hidden = true;
+      spacer.style.height = "0px";
+    }
+  };
+
+  let ticking = false;
+  const onScroll = () => {
+    if(ticking) return;
+    ticking = true;
+    window.requestAnimationFrame(() => {
+      ticking = false;
+      sync();
+    });
+  };
+  window.addEventListener("scroll", onScroll, {passive:true});
+  window.addEventListener("resize", onScroll);
+  sync();
 }
 
 async function init(){
@@ -381,7 +483,7 @@ async function init(){
     $("siteCount").textContent=number(sites.length,0);
     $("availableStamp").textContent=number(counts.available,0);
     document.title="عالية طويق | الوحدات السكنية";
-    populateFilters();renderSites();renderUnits();initGallery();
+    populateFilters();renderSites();renderUnits();initGallery();initUnitsFilterStick();
     $("siteFilter").addEventListener("change",()=>{updateBuildingFilter();renderUnits();document.querySelectorAll(".site-chip").forEach(item=>item.classList.toggle("active",item.dataset.block===$("siteFilter").value));});
     ["buildingFilter","floorFilter","typeFilter","bedroomFilter","sortFilter","searchInput"].forEach(id=>$(id).addEventListener("input",renderUnits));
     $("dialogClose").addEventListener("click",()=>$("unitDialog").close());
