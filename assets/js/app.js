@@ -374,8 +374,15 @@ function initGallery(){
     image.src = slide.src;
     image.alt = slide.alt;
     caption.textContent = slide.caption;
-    if(!dialog.open) dialog.showModal();
+    if(!dialog.open){
+      dialog.showModal();
+      document.body.classList.add("gallery-open");
+    }
   }
+  const closeGallery = () => {
+    if(dialog.open) dialog.close();
+    document.body.classList.remove("gallery-open");
+  };
   let ignoreBackdrop = false;
   board.addEventListener("click", event => {
     const card = event.target.closest("[data-index]");
@@ -386,11 +393,12 @@ function initGallery(){
   });
   $("galleryDialogPrev").addEventListener("click", () => showPhoto(galleryIndex - 1));
   $("galleryDialogNext").addEventListener("click", () => showPhoto(galleryIndex + 1));
-  $("galleryDialogClose").addEventListener("click", () => dialog.close());
+  $("galleryDialogClose").addEventListener("click", closeGallery);
   dialog.addEventListener("click", event => {
     if(ignoreBackdrop) return;
-    if(event.target === dialog) dialog.close();
+    if(event.target === dialog) closeGallery();
   });
+  dialog.addEventListener("close", () => document.body.classList.remove("gallery-open"));
 }
 
 function initUnitsFilterStick(){
@@ -422,6 +430,18 @@ function initUnitsFilterStick(){
   };
 
   const sync = () => {
+    // On phones the full filter stack is too tall to pin.
+    if(window.matchMedia("(max-width:720px)").matches){
+      panel.classList.remove("is-stuck");
+      panel.style.top = "";
+      panel.style.left = "";
+      panel.style.right = "";
+      panel.style.width = "";
+      spacer.hidden = true;
+      spacer.style.height = "0px";
+      return;
+    }
+
     const sectionRect = section.getBoundingClientRect();
     const panelH = panel.offsetHeight;
     const topGap = headerH() + 8;

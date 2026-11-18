@@ -1042,16 +1042,27 @@ body{background:#F4EEE7;color:#30282A}
 }
 .gallery-dialog{
   width:min(1100px,94vw);
+  max-width:94vw;
+  height:auto;
   max-height:92vh;
+  margin:auto;
   border:0;
   border-radius:20px;
   padding:18px 64px 16px;
   background:#F4EEE7;
+  overflow:hidden;
 }
-.gallery-dialog::backdrop{background:rgba(47,28,34,.62)}
+.gallery-dialog:not([open]){display:none}
+.gallery-dialog::backdrop{background:rgba(28,13,18,.88)}
 .gallery-dialog figure{margin:0}
 .gallery-dialog img{width:100%;max-height:76vh;object-fit:contain;background:#fff;border-radius:14px}
 .gallery-dialog figcaption{margin-top:10px;text-align:center;color:#633843;font-weight:700;font-size:18px}
+.gallery-dialog .dialog-close{
+  position:absolute;
+  top:12px;
+  left:12px;
+  z-index:3;
+}
 .gallery-dialog-arrow{
   position:absolute;
   top:50%;
@@ -1064,9 +1075,11 @@ body{background:#F4EEE7;color:#30282A}
   color:#F4EEE7;
   font-size:26px;
   cursor:pointer;
+  z-index:2;
 }
 .gallery-dialog-prev{right:12px}
 .gallery-dialog-next{left:12px}
+body.gallery-open{overflow:hidden}
 @media(max-width:800px){
   .gallery-board{grid-template-columns:1fr 1fr;grid-template-rows:clamp(160px,42vw,240px) clamp(120px,28vw,180px) clamp(120px,28vw,180px)}
   .gallery-card:nth-child(1){grid-column:1 / span 2;grid-row:1}
@@ -1111,38 +1124,91 @@ body{background:#F4EEE7;color:#30282A}
   .header .brand .company-logo{width:auto;height:32px;max-width:46vw}
   .header .brand .tauwiq-logo,.header .brand .project-brand{width:auto;height:28px}
   .header .brand-divider{height:24px}
-  .gallery-board{grid-template-columns:1fr;grid-template-rows:none;gap:10px}
-  .gallery-card:nth-child(n){grid-column:1;grid-row:auto}
-  .gallery-card img{height:auto;aspect-ratio:16/10}
+  .gallery-board{
+    grid-template-columns:1fr 1fr;
+    grid-template-rows:clamp(150px,38vw,220px) clamp(110px,26vw,160px) clamp(110px,26vw,160px);
+    gap:8px;
+  }
+  .gallery-card:nth-child(1){grid-column:1 / span 2;grid-row:1}
+  .gallery-card:nth-child(2){grid-column:1;grid-row:2}
+  .gallery-card:nth-child(3){grid-column:2;grid-row:2}
+  .gallery-card:nth-child(4){grid-column:1;grid-row:3}
+  .gallery-card:nth-child(5){grid-column:2;grid-row:3}
+  .gallery-card img{height:100%;aspect-ratio:auto;object-fit:cover}
   .gallery-section .nearby-strip{grid-template-columns:1fr 1fr;gap:8px}
   .gallery-section .nearby-strip div{min-height:88px;padding:14px 10px;border-radius:14px}
   .gallery-section .nearby-strip strong{font-size:20px}
   .gallery-section .nearby-strip span{font-size:13px}
   .filter-top{grid-template-columns:1fr}
+  .filter-panel,
+  .filter-panel.is-stuck{
+    position:static!important;
+    top:auto!important;
+    left:auto!important;
+    right:auto!important;
+    width:auto!important;
+    box-shadow:0 8px 20px rgba(43,34,38,.05);
+  }
+  .filter-stick-spacer{display:none!important;height:0!important}
   .unit-grid{grid-template-columns:1fr}
+  .unit-plan-thumb{height:132px}
   .unit-card .unit-code{font-size:18px}
   .unit-card .unit-place{overflow-wrap:anywhere}
   .contact-box,.contact-box .lead-fields{grid-template-columns:1fr}
   .map-image-wrap{height:220px}
   .visit-section .location-map{aspect-ratio:4/3;min-height:240px}
-  .gallery-dialog{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    align-content:center;
-    gap:14px 16px;
+  .gallery-dialog[open]{
+    position:fixed;
+    inset:0;
     width:100%;
     max-width:none;
     height:100%;
-    max-height:100%;
+    max-height:none;
     margin:0;
     border-radius:0;
-    padding:58px 16px 24px;
+    padding:56px 14px 18px;
+    background:#1c0d12;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
   }
-  .gallery-dialog figure{grid-column:1 / -1;grid-row:1}
-  .gallery-dialog img{max-height:62vh}
-  .gallery-dialog-arrow{position:static;transform:none;width:44px;height:44px;justify-self:center}
-  .gallery-dialog-prev{grid-column:1;grid-row:2}
-  .gallery-dialog-next{grid-column:2;grid-row:2}
+  .gallery-dialog figure{
+    width:100%;
+    max-width:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    min-height:0;
+  }
+  .gallery-dialog img{
+    max-height:min(68dvh,68vh);
+    background:transparent;
+    border-radius:12px;
+  }
+  .gallery-dialog figcaption{
+    color:#F4EEE7;
+    font-size:15px;
+    margin-top:8px;
+  }
+  .gallery-dialog-arrow{
+    position:absolute;
+    top:auto;
+    bottom:18px;
+    transform:none;
+    width:44px;
+    height:44px;
+  }
+  .gallery-dialog-prev{right:18px;left:auto}
+  .gallery-dialog-next{left:18px;right:auto}
+  .gallery-dialog .dialog-close{
+    top:10px;
+    left:10px;
+    background:#633843;
+    color:#F4EEE7;
+  }
   .intro-stats{grid-template-columns:1fr}
   .site-list{grid-template-columns:1fr}
 }
